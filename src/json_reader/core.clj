@@ -1,6 +1,5 @@
 (ns json-reader.core
-  (:require [clojure.java.io])
-  (:gen-class))
+  (:require [clojure.java.io]))
 
 (defn open-reader
   "given a file name, return a reader."
@@ -14,8 +13,3 @@
 (defn close-reader
   [json-rdr]
   (.close json-rdr))
-
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
