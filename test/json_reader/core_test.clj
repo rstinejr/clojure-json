@@ -5,8 +5,9 @@
 (def json-src-file "resources/sample.json")
 
 (deftest file-tests
-  (testing "found file test"
-    (let [f (open-reader json-src-file)]
+  (testing "Open, close json file reader"
+    (let [rdr (open-reader json-src-file)]
+      (close-reader rdr)
       (is true)))
   (testing "missing file test"
     (is (thrown? Exception (open-reader "no-such-file.lala")))))

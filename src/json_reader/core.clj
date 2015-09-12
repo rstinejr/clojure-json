@@ -8,7 +8,12 @@
   (let [file (clojure.java.io/file json-src)]
     (when (not (.isFile file))
       (throw (ex-info (str "JSON source file '" json-src "' not found.") {:causes #{:file-not-found}})))
-    file))
+    (let [factory (com.fasterxml.jackson.core.JsonFactory.)]
+      (.createParser factory file))))
+
+(defn close-reader
+  [json-rdr]
+  (.close json-rdr))
 
 (defn -main
   "I don't do a whole lot ... yet."
