@@ -2,6 +2,8 @@
   (:require [clojure.core.async :as async]
             [clojure.java.io]))
 
+(def verbose true)
+
 (defn open-reader
   "given a file name, return a reader."
   [json-src]
@@ -20,8 +22,16 @@
   [json-src]
   (let [rdr        (open-reader json-src)
         token-chan (async/chan)]
-    (async/go-loop [token (.nextToken rdr)]
-       (async/close! token-chan)
-       (close-reader rdr))
+    (async/go-loop 
+      [token (.nextToken rdr)]
+      (if token 
+        (do
+          (when verbose
+            (println (str "token: " (.toString token))))
+          (async/put! token-chan token)
+          (recur (.nextToken rdr)))
+        (do
+         (async/close! token-chan)
+         (close-reader rdr))))
 
     token-chan))
