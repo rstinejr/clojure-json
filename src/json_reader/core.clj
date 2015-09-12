@@ -1,5 +1,6 @@
 (ns json-reader.core
-  (:require [clojure.java.io]))
+  (:require [clojure.core.async :as async]
+            [clojure.java.io]))
 
 (defn open-reader
   "given a file name, return a reader."
@@ -13,3 +14,14 @@
 (defn close-reader
   [json-rdr]
   (.close json-rdr))
+
+(defn start-parser
+  "Kick off a go-block to parses a JSON file."
+  [json-src]
+  (let [rdr        (open-reader json-src)
+        token-chan (async/chan)]
+    (async/go-loop [token (.nextToken rdr)]
+       (async/close! token-chan)
+       (close-reader rdr))
+
+    token-chan))
