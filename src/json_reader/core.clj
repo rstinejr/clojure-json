@@ -21,9 +21,15 @@
   [json-parser]
   (.close json-parser))
 
+(defn get-value
+  [jp token-k]
+  (case token-k
+    nil))
+
 (defn get-item-attribs
   [jp token]
-  {:token (keyword (.toString token)) :name (.getCurrentName jp)})
+  (let [token-k (keyword (.toString token))]
+    {:token token-k :name (.getCurrentName jp) :value (get-value jp token-k)}))
 
 (defn start-parser
   "Kick off a go-block to parse a character input stream or reader of JSON source."
