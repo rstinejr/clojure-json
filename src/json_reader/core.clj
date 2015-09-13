@@ -11,31 +11,31 @@
       (throw (ex-info (str "JSON source file '" json-src "' not found.") {:causes #{:file-not-found}})))
     (clojure.java.io/input-stream file)))
   
-(defn open-reader
-  "given a file name, return a reader."
+(defn open-parser
+  "given a JSON character stream, return a parser."
   [json-stream]
     (let [factory (com.fasterxml.jackson.core.JsonFactory.)]
       (.createParser factory json-stream)))
 
-(defn close-reader
-  [json-rdr]
-  (.close json-rdr))
+(defn close-parser
+  [json-parser]
+  (.close json-parser))
 
 (defn start-parser
   "Kick off a go-block to parse a character input stream or reader of JSON source."
   [src-stream]
-  (let [json-rdr   (open-reader src-stream)
+  (let [jp         (open-parser src-stream)
         token-chan (async/chan)]
     (async/go-loop 
-      [token (.nextToken json-rdr)]
+      [token (.nextToken jp)]
       (if token 
         (do
           (when verbose
             (println (str "token: " (.toString token))))
           (async/put! token-chan token)
-          (recur (.nextToken json-rdr)))
+          (recur (.nextToken jp)))
         (do
          (async/close! token-chan)
-         (close-reader json-rdr))))
+         (close-parser jp))))
 
     token-chan))

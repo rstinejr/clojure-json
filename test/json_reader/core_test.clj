@@ -6,9 +6,9 @@
 (def json-src-file "resources/sample.json")
 
 (deftest file-tests
-  (testing "Open, close json file reader"
-    (let [rdr (open-reader (file-to-stream json-src-file))]
-      (close-reader rdr)
+  (testing "Open, close json file parser"
+    (let [jp (open-parser (file-to-stream json-src-file))]
+      (close-parser jp)
       (is true)))
   (testing "missing file test"
     (is (thrown? Exception (file-to-stream "no-such-file.lala")))))
