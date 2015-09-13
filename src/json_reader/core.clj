@@ -23,7 +23,7 @@
 
 (defn get-item-attribs
   [jp token]
-  {:token (.toString token) :name (.getCurrentName jp)})
+  {:token (keyword (.toString token)) :name (.getCurrentName jp)})
 
 (defn start-parser
   "Kick off a go-block to parse a character input stream or reader of JSON source."
