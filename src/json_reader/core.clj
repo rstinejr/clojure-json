@@ -24,6 +24,9 @@
 (defn get-value
   [jp token-k]
   (case token-k
+    :VALUE_STRING       (.getText jp)
+    :VALUE_NUMBER_INT   (.getLongValue jp)
+    :VALUE_NUMBER_FLOAT (.getDoubleValue jp)
     nil))
 
 (defn get-item-attribs
@@ -36,16 +39,21 @@
   [src-stream]
   (let [jp         (open-parser src-stream)
         token-chan (async/chan)]
-    (async/go-loop 
-      [token (.nextToken jp)]
-      (if token 
+    (async/go-loop [ ]
+      (if-let [token 
+                 (try
+                   (.nextToken jp)
+                   (catch Throwable t 
+                     (do
+                       (async/put! token-chan {:token :ERROR :msg (.getMessage t)})
+                       nil)))]
         (let [item-attribs (get-item-attribs jp token)]
           (when verbose
             (println (str "item: " item-attribs)))
           (async/put! token-chan item-attribs)
-          (recur (.nextToken jp)))
-        (do
-         (async/close! token-chan)
-         (close-parser jp))))
+          (recur))
+      (do
+        (async/close! token-chan)
+        (close-parser jp))))
 
     token-chan))
