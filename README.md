@@ -3,6 +3,8 @@
 
 To kick the tires: clone this project, then run ```lein test```
 
+One of the test routines parses file  [sample.jason](https://github.com/rstinejr/clojure-json/blob/master/resources/sample.json)
+
 At this point, expected output is:
 ```
 lein test json-reader.core-test
