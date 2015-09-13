@@ -7,15 +7,15 @@
 
 (deftest file-tests
   (testing "Open, close json file reader"
-    (let [rdr (open-reader json-src-file)]
+    (let [rdr (open-reader (file-to-stream json-src-file))]
       (close-reader rdr)
       (is true)))
   (testing "missing file test"
-    (is (thrown? Exception (open-reader "no-such-file.lala")))))
+    (is (thrown? Exception (file-to-stream "no-such-file.lala")))))
 
 (deftest token-tests
   (testing "smoke test: get channel"
-    (let [token-ch (start-parser json-src-file)]
+    (let [token-ch (start-parser (file-to-stream json-src-file))]
       (loop [token (async/<!! token-ch)]
         (if token
           (recur (async/<!! token-ch))))
