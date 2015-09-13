@@ -24,7 +24,9 @@
 (defn get-value
   [jp token-k]
   (case token-k
+    :VALUE_FALSE        false
     :VALUE_STRING       (.getText jp)
+    :VALUE_TRUE         true
     :VALUE_NUMBER_INT   (.getLongValue jp)
     :VALUE_NUMBER_FLOAT (.getDoubleValue jp)
     nil))
@@ -33,6 +35,12 @@
   [jp token]
   (let [token-k (keyword (.toString token))]
     {:token token-k :name (.getCurrentName jp) :value (get-value jp token-k)}))
+
+(defn put-msg
+  [ch msg]
+  (when verbose
+    (println (str "item: " msg)))
+  (async/put! ch msg))
 
 (defn start-parser
   "Kick off a go-block to parse a character input stream or reader of JSON source."
@@ -45,15 +53,13 @@
                    (.nextToken jp)
                    (catch Throwable t 
                      (do
-                       (async/put! token-chan {:token :ERROR :msg (.getMessage t)})
+                       (put-msg token-chan {:token :ERROR :msg (.getMessage t)})
                        nil)))]
         (let [item-attribs (get-item-attribs jp token)]
-          (when verbose
-            (println (str "item: " item-attribs)))
-          (async/put! token-chan item-attribs)
+          (put-msg token-chan item-attribs)
           (recur))
-      (do
-        (async/close! token-chan)
-        (close-parser jp))))
+        (do
+          (async/close! token-chan)
+          (close-parser jp))))
 
     token-chan))

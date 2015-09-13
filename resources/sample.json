@@ -4,6 +4,11 @@
   "firstName": "John",
   "lastName": "Smith",
   "age": 25,
+  "reliability": 0.87,
+  "military": false,
+  "dangerous": true,
+  "longValue": 2999999999,
+  "doubleValue": 1234556778.123456789,
   "address": {
              "streetAddress": "21 2nd Street",
              "city": "New York",
