@@ -9,4 +9,5 @@
                    "resources/jars/jackson-core-2.6.1.jar" 
                    "resources/jars/jackson-databind-2.6.1.jar"]
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}
+             :dev { :plugins [[lein-marginalia "0.8.0"]]}})
