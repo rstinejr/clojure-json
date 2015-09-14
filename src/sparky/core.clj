@@ -5,23 +5,24 @@
 (def verbose true)
 
 (defn file-to-stream
+  "Given a file name, return an InputStream of the file's contents."
   [json-src]
   (let [file (clojure.java.io/file json-src)]
     (when (not (.isFile file))
       (throw (ex-info (str "JSON source file '" json-src "' not found.") {:causes #{:file-not-found}})))
     (clojure.java.io/input-stream file)))
   
-(defn open-parser
+(defn- open-parser
   "given a JSON character stream, return a parser."
   [json-stream]
     (let [factory (com.fasterxml.jackson.core.JsonFactory.)]
       (.createParser factory json-stream)))
 
-(defn close-parser
+(defn- close-parser
   [json-parser]
   (.close json-parser))
 
-(defn get-value
+(defn- get-value
   [jp token-k]
   (case token-k
     :VALUE_FALSE        false
@@ -31,19 +32,31 @@
     :VALUE_NUMBER_FLOAT (.getDoubleValue jp)
     nil))
 
-(defn get-item-attribs
+(defn- get-item-attribs
   [jp token]
   (let [token-k (keyword (.toString token))]
     {:token token-k :name (.getCurrentName jp) :value (get-value jp token-k)}))
 
-(defn put-msg
+(defn- put-msg
   [ch msg]
   (when verbose
     (println (str "item: " msg)))
   (async/put! ch msg))
 
 (defn start-parser
-  "Kick off a go-block to parse a character input stream or reader of JSON source."
+  "Kick off a go-block to parse a character input stream or reader of JSON source.
+  This method returns a channel over which the parser will put! maps that describe 
+  the tokens returned by the parser.  A normal token have values
+  ```
+  {:token <token keywork> :name <string, name of current attribute> :value <value associated with this token, may be nil> }
+  ```
+  Tokens are returned until end-of-stream or a syntax error occurs.
+  The token channel is closed when the stream is exhausted or on error.
+  If the Jackson parser throws an exception, the following message is written to the token channel:
+  ```
+ {:token :ERROR :msg <error message string> }
+ ```
+ " 
   [src-stream]
   (let [jp         (open-parser src-stream)
         token-chan (async/chan)]

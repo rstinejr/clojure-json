@@ -7,7 +7,7 @@ One of the test routines parses file  [sample.jason](https://github.com/rstinejr
 
 At this point, expected output is:
 ```
-lein test json-reader.core-test
+lein test sparky.core-test
 item: {:token :START_OBJECT, :name nil, :value nil}
 item: {:token :FIELD_NAME, :name "toplevel", :value nil}
 item: {:token :START_OBJECT, :name "toplevel", :value nil}
@@ -59,8 +59,7 @@ item: {:token :FIELD_NAME, :name "type", :value nil}
 item: {:token :VALUE_STRING, :name "type", :value "male"}
 item: {:token :END_OBJECT, :name "gender", :value nil}
 item: {:token :END_OBJECT, :name "toplevel", :value nil}
-item: {:token :END_OBJECT, :name nil, :value nil}
 
-Ran 2 tests containing 3 assertions.
+Ran 2 tests containing 2 assertions.
 0 failures, 0 errors.
 ```
