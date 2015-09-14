@@ -1,4 +1,4 @@
-# clojure-json
+# sparky
 ## Implement a Clojure wrapper around the Jackson JSON Streaming Parser
 
 To kick the tires: clone this project, then run ```lein test```
