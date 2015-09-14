@@ -1,8 +1,8 @@
-(defproject json-reader "0.1.1-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+(defproject sparky "0.1.1-SNAPSHOT"
+  :description "Clojure wrapper around Jackson streaming JSON parser."
+  :url "https://github.com/rstinejr/clojure-json"
+  :license {:name "The MIT License (MIT)"
+            :url "https://github.com/rstinejr/clojure-json/blob/master/LICENSE"}
   :dependencies [[org.clojure/clojure    "1.6.0"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
   :resource-paths ["resources/jars/jackson-annotations-2.6.1.jar" 

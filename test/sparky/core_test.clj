@@ -1,7 +1,7 @@
-(ns json-reader.core-test
+(ns sparky.core-test
   (:require [clojure.core.async :as async] 
             [clojure.test       :refer :all]
-            [json-reader.core   :refer :all]))
+            [sparky.core        :refer :all]))
 
 (def json-src-file "resources/sample.json")
 

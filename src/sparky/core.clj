@@ -1,4 +1,4 @@
-(ns json-reader.core
+(ns sparky.core
   (:require [clojure.core.async :as async]
             [clojure.java.io]))
 
