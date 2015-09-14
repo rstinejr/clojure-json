@@ -13,7 +13,7 @@
     (clojure.java.io/input-stream file)))
   
 (defn- open-parser
-  "given a JSON character stream, return a parser."
+  "Private. Given a JSON character stream, return a parser."
   [json-stream]
     (let [factory (com.fasterxml.jackson.core.JsonFactory.)]
       (.createParser factory json-stream)))
@@ -45,17 +45,22 @@
 
 (defn start-parser
   "Kick off a go-block to parse a character input stream or reader of JSON source.
+
   This method returns a channel over which the parser will put! maps that describe 
   the tokens returned by the parser.  A normal token have values
-  ```
-  {:token <token keywork> :name <string, name of current attribute> :value <value associated with this token, may be nil> }
-  ```
+
+      {:token <token-keyword> 
+       :name  <current- attribute-name-str>
+       :value <value-of-token-may-be-nil> }
+  
   Tokens are returned until end-of-stream or a syntax error occurs.
+
   The token channel is closed when the stream is exhausted or on error.
+
   If the Jackson parser throws an exception, the following message is written to the token channel:
-  ```
- {:token :ERROR :msg <error message string> }
- ```
+  
+     {:token :ERROR 
+      :msg   <error-msg-str> }
  " 
   [src-stream]
   (let [jp         (open-parser src-stream)
