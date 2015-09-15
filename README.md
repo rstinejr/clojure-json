@@ -1,6 +1,8 @@
 # sparky
 ## A Clojure wrapper for the Jackson JSON Streaming Parser
 
+First off: for a much more complete, much more mature Clojure wrapper around the Jackson jars, see the [Cheshire](https://github.com/dakrone/cheshire) project.
+
 To kick the tires: clone this project, then run ```lein test```
 
 One of the test routines parses file  [sample.jason](https://github.com/rstinejr/clojure-json/blob/master/resources/sample.json)
