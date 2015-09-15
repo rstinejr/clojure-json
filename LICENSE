@@ -20,5 +20,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-This project uses jars jackson-annotations-2.6.1.jar, jackson-core-2.6.1.jar, and jackson-databind-2.6.1.jar,
-which are licnsed under the Apache 2.0 license.  See http://www.apache.org/licenses/LICENSE-2.0.tx.
+This project uses jackson-core-2.6.1.jar, which licnsed under the Apache 2.0
+license.  See http://www.apache.org/licenses/LICENSE-2.0.txt.
