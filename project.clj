@@ -1,4 +1,4 @@
-(defproject sparky "0.2.1-SNAPSHOT"
+(defproject sparky "0.2.1"
   :description "Clojure wrapper around Jackson streaming JSON parser."
   :url "https://github.com/rstinejr/clojure-json"
   :license {:name "The MIT License (MIT)"
